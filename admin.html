@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menna Dashboard</title>
+  <style>
+    body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; background: #111; }
+    #app { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="module">
+    import { renderStudio } from 'https://esm.sh/sanity@3'
+    import { structureTool } from 'https://esm.sh/sanity@3/structure'
+
+    // بناء استمارة المشروع التي ستملئينها
+    const project = {
+      name: 'project',
+      title: 'Project',
+      type: 'document',
+      fields: [
+        { name: 'title', title: 'Project Title (اسم المشروع)', type: 'string' },
+        { name: 'category', title: 'Category (التصنيف مثل: Fashion / Brand)', type: 'string' },
+        { name: 'thumbnail', title: 'Main Thumbnail (الصورة الرئيسية الخارجية)', type: 'image', options: { hotspot: true } },
+        { name: 'gallery', title: 'Project Images (صور التفاصيل بالداخل)', type: 'array', of: [{ type: 'image' }] },
+        { name: 'overview', title: 'Overview / Article (وصف المشروع)', type: 'text' },
+        { name: 'roles', title: 'Roles (دورك في العمل - افصلي بينهم بفاصلة ,)', type: 'string' }
+      ]
+    }
+
+    // تشغيل لوحة التحكم وربطها بحسابك
+    renderStudio(document.getElementById('app'), {
+      projectId: 'he2c3021',
+      dataset: 'production',
+      basePath: '/admin',
+      plugins: [structureTool()],
+      schema: { types: [project] }
+    })
+  </script>
+</body>
+</html>
