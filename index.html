@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Menna Baghdady — AI Creative Director</title>
+    <style>
+        :root { --paper: #f3f0e9; --ink: #111; --muted: #706e68; --line: #d6d1c7; --lime: #b8f23f }
+        * { box-sizing: border-box }
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif }
+        a { text-decoration: none; color: inherit }
+        button { font: inherit }
+        
+        .site { max-width: 1440px; margin: auto }
+        
+        .nav { height: 72px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 34px; position: sticky; top: 0; background: rgba(243,240,233,.94); backdrop-filter: blur(12px); z-index: 10 }
+        .logo { font-weight: 800; letter-spacing: -.05em; font-size: 19px; z-index: 20; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: var(--ink); z-index: 20; }
+        .navlinks { display: flex; gap: 27px; font-size: 10px; text-transform: uppercase; letter-spacing: .14em }
+        .navlinks a { opacity: .68; transition: opacity .25s }
+        .navlinks a:hover { opacity: 1 }
+        .navtag { font-size: 9px; text-transform: uppercase; letter-spacing: .14em; color: var(--muted) }
+        
+        .hero { padding: 82px 34px 34px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 70px; align-items: end; min-height: 620px }
+        .kicker { font-size: 10px; letter-spacing: .17em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px }
+        h1 { font-size: clamp(64px, 10vw, 150px); line-height: .82; letter-spacing: -.085em; margin: 0; font-weight: 700 }
+        .heroCopy { max-width: 380px; padding-bottom: 9px; color: #555; font-size: 14px; line-height: 1.75 }
+        .heroCopy strong { display: block; color: var(--ink); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 15px }
+        .cta { display: inline-block; margin-top: 28px; border-bottom: 1px solid var(--ink); padding-bottom: 8px; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; transition: opacity 0.3s }
+        .cta:hover { opacity: 0.6 }
+        
+        .heroVisual { margin: 25px 34px 0; height: 500px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative }
+        .heroVisual:before { content: ""; width: 270px; height: 390px; background: linear-gradient(145deg, #ddd8cf, #8a857c 48%, #282828); transform: rotate(-7deg); opacity: .95 }
+        .heroVisual span { position: absolute; color: #eee; font-size: 10px; letter-spacing: .17em; text-transform: uppercase; right: 20px; top: 20px }
+        
+        .section { padding: 95px 34px }
+        .sectionHead { display: flex; justify-content: space-between; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 15px; margin-bottom: 28px }
+        .sectionHead h2 { font-size: 43px; letter-spacing: -.06em; margin: 0 }
+        .sectionHead span { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted) }
+        
+        .workGrid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 16px }
+        .project { background: #e9e5dd; overflow: hidden; cursor: pointer }
+        .project:nth-child(3n) { grid-column: 1 }
+        .project:nth-child(4n) { grid-column: 2 }
+        .thumb { height: 390px; width: 100%; overflow: hidden; background: #ddd; display: flex; align-items: center; justify-content: center; color: #999; font-size: 10px; letter-spacing: 0.1em; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
+        .project:hover .thumb img { transform: scale(1.04); }
+        .projectMeta { padding: 17px; display: flex; justify-content: space-between; font-size: 10px; text-transform: uppercase; letter-spacing: .1em }
+        .projectMeta small { color: #777 }
+        
+        .manifesto { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 100px 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px }
+        .manifesto h3 { font-size: clamp(40px, 6vw, 80px); line-height: .88; letter-spacing: -.07em; margin: 0 }
+        .manifesto p { max-width: 390px; color: #555; font-size: 14px; line-height: 1.8; margin: 0 }
+        
+        .capabilities { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line) }
+        .cap { padding: 28px 0; border-bottom: 1px solid var(--line); font-size: 12px; text-transform: uppercase; letter-spacing: .1em }
+        .cap span { display: block; color: #777; font-size: 9px; margin-top: 9px; letter-spacing: .08em }
+        
+        .copyLab { display: grid; grid-template-columns: .4fr 1fr; gap: 50px }
+        .copyNav { font-size: 11px; text-transform: uppercase; letter-spacing: .1em }
+        .copyNav div { padding: 12px 0; border-bottom: 1px solid var(--line); color: #777 }
+        .copyNav div:first-child { color: var(--ink) }
+        
+        .copySample { border-left: 1px solid var(--line); padding-left: 40px }
+        .copySample h4 { font-size: 48px; line-height: .95; letter-spacing: -.06em; margin: 0 0 20px }
+        .copySample p { color: #555; line-height: 1.8; max-width: 520px }
+        
+        .about { display: grid; grid-template-columns: 1fr 1fr; gap: 70px }
+        .about h3 { font-size: 65px; letter-spacing: -.07em; line-height: .88; margin: 0 }
+        .about p { color: #555; line-height: 1.8; font-size: 14px }
+        
+        .contact { padding: 120px 34px 80px; border-top: 1px solid var(--line) }
+        .contact h2 { font-size: clamp(58px, 9vw, 130px); line-height: .82; letter-spacing: -.08em; margin: 0 }
+        .contactRow { display: flex; justify-content: space-between; align-items: end; margin-top: 70px; font-size: 10px; text-transform: uppercase; letter-spacing: .13em }
+        .contactRow a { border-bottom: 1px solid var(--ink); padding-bottom: 8px; transition: opacity 0.3s; }
+        .contactRow a:hover { opacity: 0.6; }
+        
+        .footer { padding: 22px 34px 35px; display: flex; justify-content: space-between; border-top: 1px solid var(--line); font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: #777 }
+        
+        .modal { position: fixed; inset: 0; background: rgba(15,15,15,.4); display: none; align-items: flex-end; z-index: 30; backdrop-filter: blur(4px); }
+        .modal.open { display: flex }
+        .panel { width: 100%; max-height: 90vh; overflow-y: auto; background: var(--paper); padding: 30px 34px 45px; animation: rise .55s cubic-bezier(.2,.8,.2,1); scrollbar-width: thin; }
+        .panel::-webkit-scrollbar { width: 6px; }
+        .panel::-webkit-scrollbar-thumb { background-color: var(--muted); border-radius: 4px; }
+        
+        .panelTop { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding-bottom: 15px; position: sticky; top: 0; background: var(--paper); z-index: 2; margin-top: -30px; padding-top: 30px; }
+        .panel h4 { font-size: 42px; letter-spacing: -.06em; margin: 0 }
+        .close { border: 0; background: none; text-transform: uppercase; letter-spacing: .13em; font-size: 10px; cursor: pointer; padding: 10px; margin: -10px; transition: opacity 0.3s; }
+        .close:hover { opacity: 0.6; }
+        .panelGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; padding-top: 25px; color: #555; font-size: 13px; line-height: 1.7 }
+        .label { font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: #777; margin-bottom: 10px }
+        
+        .modalGallery { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 40px; border-top: 1px solid var(--line); padding-top: 40px; }
+        .modalGallery img { width: 100%; height: auto; display: block; object-fit: cover; }
+        @media(min-width: 768px) { .modalGallery { grid-template-columns: 1fr 1fr; } }
+        
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease }
+        .reveal.show { opacity: 1; transform: none }
+        
+        @keyframes rise { from { transform: translateY(35px); opacity: 0 } to { transform: none; opacity: 1 } }
+        
+        @media(max-width: 760px) {
+            html { scroll-padding-top: 75px; }
+            .nav { padding: 0 18px; position: sticky; }
+            .menu-toggle { display: block; }
+            .navtag { display: none; }
+            .navlinks { display: none; position: absolute; top: 72px; left: 0; width: 100%; background: rgba(243,240,233,.98); backdrop-filter: blur(12px); flex-direction: column; align-items: center; padding: 30px 0; gap: 30px; border-bottom: 1px solid var(--line); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+            .navlinks.active { display: flex; }
+            .navlinks a { font-size: 12px; padding: 10px; }
+            .hero { padding: 60px 18px 25px; grid-template-columns: 1fr; min-height: auto; gap: 35px }
+            .heroVisual { margin: 18px; height: 350px }
+            .section { padding: 70px 18px }
+            .workGrid, .manifesto, .about, .copyLab { grid-template-columns: 1fr }
+            .project:nth-child(3n), .project:nth-child(4n) { grid-column: auto }
+            .thumb { height: 260px }
+            .capabilities { grid-template-columns: 1fr 1fr }
+            .manifesto { padding: 70px 18px }
+            .contact { padding: 85px 18px 60px }
+            .contactRow, .footer { flex-direction: column; align-items: flex-start; gap: 25px }
+            .panel { padding: 25px 18px 35px }
+            .panelTop { margin-top: -25px; padding-top: 25px; }
+            .panelGrid { grid-template-columns: 1fr; gap: 20px }
+            .panel h4 { font-size: 34px }
+            .modalGallery { grid-template-columns: 1fr; margin-top: 25px; padding-top: 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="site">
+        <header class="nav">
+            <a class="logo" href="#home">MENNA BAGHDADY.</a>
+            <button class="menu-toggle" id="mobileMenuBtn">☰</button>
+            <nav class="navlinks" id="navLinks">
+                <a href="#work">WORK</a>
+                <a href="#direction">AI DIRECTION</a>
+                <a href="#content">CONTENT</a>
+                <a href="#about">ABOUT</a>
+                <a href="#contact">CONTACT</a>
+            </nav>
+            <div class="navtag">AI Creative Director</div>
+        </header>
+
+        <main id="home">
+            <section class="hero">
+                <div class="reveal show">
+                    <div class="kicker">Creative Technology / Visual Communication</div>
+                    <h1>I CREATE.<br>I DIRECT.<br>I REIMAGINE.</h1>
+                </div>
+                <div class="heroCopy reveal show">
+                    <strong>AI CREATIVE DIRECTOR</strong>
+                    I create and direct AI-powered visual experiences for brands, products, and digital stories — combining creative thinking, visual design, content, and emerging AI technologies.<br><br>
+                    <a class="cta" href="#work">VIEW MY WORK →</a>
+                </div>
+            </section>
+
+            <div class="heroVisual reveal show">
+                <span>AI / VISUAL DIRECTION</span>
+                <div style="position: absolute; color: rgb(238, 238, 238); text-align: center; font-size: 60px; line-height: 0.9; letter-spacing: -0.06em;">CREATIVE<br>INTELLIGENCE</div>
+            </div>
+
+            <section id="work" class="section reveal">
+                <div class="sectionHead">
+                    <h2>Selected Work</h2>
+                    <span>EXPLORE PROJECTS</span>
+                </div>
+                <!-- المشاريع ستظهر هنا تلقائياً من لوحة التحكم -->
+                <div class="workGrid" id="dynamicProjects">
+                    <div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #777; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;">
+                        LOADING PROJECTS...
+                    </div>
+                </div>
+            </section>
+
+            <section class="manifesto reveal" id="direction">
+                <h3>AI IS THE TOOL.<br>DIRECTION IS<br>THE SKILL.</h3>
+                <p>I don't approach AI as a one-click image generator. I use it as part of a broader creative production process — from concept development and visual research to art direction, generation, iteration, and final execution.</p>
+            </section>
+
+            <section class="section reveal">
+                <div class="sectionHead">
+                    <h2>Capabilities</h2>
+                    <span>CREATIVE / CONTENT / DESIGN</span>
+                </div>
+                <div class="capabilities">
+                    <div class="cap">CREATIVE DIRECTION<span>CONCEPT · ART DIRECTION · VISUAL DEVELOPMENT</span></div>
+                    <div class="cap">VISUAL CONTENT<span>AI PRODUCTION · CAMPAIGN VISUALS · PRODUCT WORLDS</span></div>
+                    <div class="cap">CONTENT CREATION<span>SOCIAL CONTENT · CONCEPTS · STORYTELLING</span></div>
+                    <div class="cap">COPYWRITING<span>SOCIAL COPY · PRODUCT COPY · CAMPAIGN MESSAGING</span></div>
+                    <div class="cap">GRAPHIC DESIGN<span>BRANDING · SOCIAL · CAMPAIGN ASSETS</span></div>
+                    <div class="cap">AI PRODUCTION<span>PROMPT ENGINEERING · IMAGE GENERATION</span></div>
+                </div>
+            </section>
+
+            <section id="about" class="section reveal about">
+                <div>
+                    <h3>I BUILD<br>VISUAL<br>SYSTEMS.</h3>
+                </div>
+                <div>
+                    <p>I am an AI Creative Director based in Egypt, exploring the intersection of creative strategy and artificial intelligence. My background is rooted in visual communication, allowing me to approach AI production not just technically, but aesthetically.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer id="contact" class="contact reveal">
+            <h2>LET'S BUILD<br>SOMETHING NEW.</h2>
+            <div class="contactRow">
+                <span>OPEN FOR COLLABORATION / FREELANCE PROJECTS</span>
+                <a href="mailto:hello@mennabaghdady.com">HELLO@MENNABAGHDADY.COM</a>
+            </div>
+        </footer>
+
+        <div class="footer">
+            <span>© 2024 MENNA BAGHDADY. ALL RIGHTS RESERVED.</span>
+            <span>PORTFOLIO / V.01</span>
+        </div>
+    </div>
+    
+    <div class="modal" id="projectModal">
+        <div class="panel">
+            <div class="panelTop">
+                <h4 id="modalTitle">Project Title</h4>
+                <button class="close" id="closeModal">Close [X]</button>
+            </div>
+            <div class="panelGrid">
+                <div>
+                     <div class="label">Overview</div>
+                     <p id="modalCopy"></p>
+                </div>
+                 <div>
+                     <div class="label">Roles</div>
+                     <p id="modalRoles"></p>
+                </div>
+            </div>
+            <div class="modalGallery" id="modalGallery"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation Setup
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
+            }, { threshold: 0.1 });
+            reveals.forEach(el => observer.observe(el));
+
+            // Fetch Projects from Sanity (The Magic Part)
+            const PROJECT_ID = 'he2c3021';
+            const DATASET = 'production';
+            const QUERY = encodeURIComponent('*[_type == "project"] | order(_createdAt desc) {title, category, "thumb": thumbnail.asset->url, "images": gallery[].asset->url, overview, roles}');
+            const URL = `https://${PROJECT_ID}.api.sanity.io/v2022-03-07/data/query/${DATASET}?query=${QUERY}`;
+
+            const workGrid = document.getElementById('dynamicProjects');
+
+            fetch(URL)
+                .then(res => res.json())
+                .then(data => {
+                    const projects = data.result;
+                    if(!projects || projects.length === 0) {
+                        workGrid.innerHTML = '<div style="grid-column: 1/-1; padding: 40px; text-align: center; color: #777;">NO PROJECTS YET. <a href="/admin" style="text-decoration: underline;">ADD FROM DASHBOARD</a></div>';
+                        return;
+                    }
+                    
+                    workGrid.innerHTML = ''; // Clear loading
+                    
+                    projects.forEach((proj, index) => {
+                        const num = String(index + 1).padStart(2, '0');
+                        const thumbUrl = proj.thumb || '';
+                        const imagesAttr = proj.images ? proj.images.join(',') : '';
+                        const overview = proj.overview || '';
+                        const roles = proj.roles || '';
+                        
+                        const article = document.createElement('article');
+                        article.className = 'project reveal show';
+                        article.setAttribute('data-title', proj.title || 'Untitled');
+                        article.setAttribute('data-copy', overview);
+                        article.setAttribute('data-roles', roles);
+                        article.setAttribute('data-images', imagesAttr);
+                        
+                        article.innerHTML = `
+                            <div class="thumb">
+                                ${thumbUrl ? `<img src="${thumbUrl}" alt="${proj.title}">` : 'NO IMAGE'}
+                            </div>
+                            <div class="projectMeta">
+                                <span>${num} — ${proj.title}</span>
+                                <small>${proj.category || 'PROJECT'} ↗</small>
+                            </div>
+                        `;
+                        workGrid.appendChild(article);
+                    });
+                    
+                    bindModalEvents(); // Activate clicks
+                })
+                .catch(err => {
+                    console.error(err);
+                    workGrid.innerHTML = '<div style="grid-column: 1/-1; color: red;">Error loading projects.</div>';
+                });
+
+            // Modal Logic
+            function bindModalEvents() {
+                const projects = document.querySelectorAll('.project');
+                const modal = document.getElementById('projectModal');
+                const closeBtn = document.getElementById('closeModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const modalCopy = document.getElementById('modalCopy');
+                const modalRoles = document.getElementById('modalRoles');
+                const modalGallery = document.getElementById('modalGallery');
+
+                projects.forEach(project => {
+                    project.addEventListener('click', () => {
+                        modalTitle.textContent = project.getAttribute('data-title');
+                        modalCopy.textContent = project.getAttribute('data-copy');
+                        
+                        const roles = project.getAttribute('data-roles');
+                        modalRoles.innerHTML = roles ? roles.replace(/,/g, '<br>') : '';
+                        
+                        modalGallery.innerHTML = '';
+                        const imagesString = project.getAttribute('data-images');
+                        if (imagesString) {
+                            imagesString.split(',').forEach(imgUrl => {
+                                if(imgUrl.trim() !== '') {
+                                    const img = document.createElement('img');
+                                    img.src = imgUrl.trim();
+                                    modalGallery.appendChild(img);
+                                }
+                            });
+                        }
+                        modal.classList.add('open');
+                        modal.querySelector('.panel').scrollTop = 0; 
+                    });
+                });
+
+                closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+                modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
+            }
+
+            // Mobile Menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const navLinks = document.getElementById('navLinks');
+            mobileMenuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+            navLinks.querySelectorAll('a').forEach(item => {
+                item.addEventListener('click', () => navLinks.classList.remove('active'));
+            });
+        });
+    </script>
+</body>
+</html>
